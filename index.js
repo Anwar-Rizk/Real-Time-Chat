@@ -8,7 +8,7 @@ async function main() {
   // Open the database file
   const db = await open({
     filename: 'chat.db',
-    driver: sqlite3.Database,
+    driver: sqlite3.Database
   });
 
   // Create the 'messages' table (ignore the 'client_offset' column for now)
@@ -23,14 +23,18 @@ async function main() {
   const app = express();
   const server = http.createServer(app);
   const io = new Server(server, {
-    connectionStateRecovery: {},
+    connectionStateRecovery: {}
   });
 
+  // Serve the static files in the 'public' folder
+  app.use(express.static(`${__dirname}/public`));
+
   app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/public/index.html');
   });
 
   io.on('connection', async (socket) => {
+    //io.emit('chat message', 'A user has connected');
     socket.on('chat message', async (msg) => {
       try {
         // Save the message to the database
