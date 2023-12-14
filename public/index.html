@@ -58,7 +58,6 @@
           input.value = '';
         }
       });
-
       // Receive message from server and display
       socket.on('chat message', (msg, serverOffset) => {
         const item = document.createElement('li');

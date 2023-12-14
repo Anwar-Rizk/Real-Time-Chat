@@ -1,15 +1,15 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const sqlite3 = require('sqlite3');
-const { open } = require('sqlite');
+const express = require('express')
+const http = require('http')
+const { Server } = require('socket.io')
+const sqlite3 = require('sqlite3')
+const { open } = require('sqlite')
 
 async function main() {
   // Open the database file
   const db = await open({
     filename: 'chat.db',
     driver: sqlite3.Database
-  });
+  })
 
   // Create the 'messages' table (ignore the 'client_offset' column for now)
   await db.exec(`
@@ -18,20 +18,20 @@ async function main() {
       client_offset TEXT UNIQUE,
       content TEXT
     );
-  `);
+  `)
 
-  const app = express();
-  const server = http.createServer(app);
+  const app = express()
+  const server = http.createServer(app)
   const io = new Server(server, {
     connectionStateRecovery: {}
-  });
+  })
 
   // Serve the static files in the 'public' folder
-  app.use(express.static(`${__dirname}/public`));
+  app.use(express.static(`${__dirname}/public`))
 
   app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
-  });
+    res.sendFile(__dirname + '/public/index.html')
+  })
 
   io.on('connection', async (socket) => {
     //io.emit('chat message', 'A user has connected');
@@ -41,13 +41,13 @@ async function main() {
         const result = await db.run(
           'INSERT INTO messages (content) VALUES (?)',
           msg
-        );
+        )
         // Send the message to all clients
-        io.emit('chat message', msg, result.lastID);
+        io.emit('chat message', msg, result.lastID)
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
-    });
+    })
 
     if (!socket.recovered) {
       try {
@@ -55,21 +55,21 @@ async function main() {
         const messages = await db.all(
           'SELECT id, content FROM messages WHERE id > ?',
           [socket.handshake.auth.serverOffset || 0]
-        );
+        )
         // Send the messages to the client
         messages.forEach((row) => {
-          socket.emit('chat message', row.content, row.id);
-        });
+          socket.emit('chat message', row.content, row.id)
+        })
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
     }
-  });
+  })
 
-  const PORT = 3000;
+  const PORT = 3000
   server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+    console.log(`Server is running on port ${PORT}`)
+  })
 }
 
-main();
+main()
