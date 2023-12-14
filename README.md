@@ -2,6 +2,14 @@
 
 This is a simple chat application built using Socket.IO, Express, and SQLite. It allows multiple clients to connect to a server and exchange real-time messages.
 
+## Screenshots
+
+![Screenshot from 2023-12-14 04-32-20](https://github.com/Anwar-Rizk/Real-Time-Chat/assets/74681273/5841345f-c655-4c05-91f0-5fff4e4e27c5)
+
+![2023-12-14_04-56](https://github.com/Anwar-Rizk/Real-Time-Chat/assets/74681273/0d06c392-e432-4bdf-9e47-16ecf745d3b5)
+
+![2023-12-14_05-00](https://github.com/Anwar-Rizk/Real-Time-Chat/assets/74681273/2a378a05-8198-4f78-9252-f13e9348608c)
+
 ## Prerequisites
 
 - Node.js (v20 or higher) and npm installed on your machine.
@@ -42,6 +50,25 @@ This is a simple chat application built using Socket.IO, Express, and SQLite. It
 - You can disconnect or connect by clicking the "Disconnect" or "Connect" buttons.
 - You can open multiple browser tabs to simulate multiple clients.
 - The chat history is stored in an SQLite database and is retrieved when a client connects.
+
+## Project Structure
+
+- `public`: Contains static files, including the client-side HTML file.
+- `index.html`: HTML file for the chat application.
+- `server.js`: Main server script with Socket.IO implementation.
+- `package.json`: Node.js project configuration.
+
+## Technologies Used
+
+- Node.js
+- Express
+- Socket.IO
+- SQLite
+
+## Socket.IO Events
+
+- `connection`: Handles new client connections.
+- `chat message`: Handles incoming chat messages and stores them in the database.
 
 ## Code Explanation
 
