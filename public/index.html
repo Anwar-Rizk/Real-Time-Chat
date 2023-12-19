@@ -21,56 +21,7 @@
 
     <!-- Include Socket.IO library -->
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      // Connect to server
-      const socket = io({
-        auth: {
-          serverOffset: 0
-        }
-      });
-
-      const form = document.getElementById('form');
-      const input = document.getElementById('input');
-      const messages = document.getElementById('messages');
-      const toggleButton = document.getElementById('toggle-btn');
-      const name = document.getElementById('name');
-
-      // Toggle connection
-      toggleButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (socket.connected) {
-          toggleButton.innerText = 'Connect';
-          socket.disconnect();
-          toggleButton.style.backgroundColor = 'green';
-        } else {
-          toggleButton.innerText = 'Disconnect';
-          socket.connect();
-          toggleButton.style.backgroundColor = 'darkred';
-        }
-      });
-
-      // Send message to server
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (input.value) {
-          const nameVal = name.value ? name.value : 'Anonymous';
-          socket.emit('chat message', nameVal + ': ' + input.value);
-          input.value = '';
-        }
-      });
-      // Receive message from server and display
-      socket.on('chat message', (msg, serverOffset) => {
-        const item = document.createElement('li');
-        item.textContent = msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-        socket.auth.serverOffset = serverOffset; // Update server offset
-      });
-      //----------------------------------------------------------------------------
-      // Focus on name input when page loads
-      window.onload = function () {
-        name.focus();
-      };
-    </script>
+    <!-- JS code that will run in the browser -->
+    <script src="script.js"></script>
   </body>
 </html>

@@ -33,8 +33,11 @@ async function main() {
     res.sendFile(__dirname + '/public/index.html')
   })
 
+  // Listen for new connections
   io.on('connection', async (socket) => {
     //io.emit('chat message', 'A user has connected');
+
+    // Listen for new messages
     socket.on('chat message', async (msg) => {
       try {
         // Save the message to the database
@@ -49,6 +52,7 @@ async function main() {
       }
     })
 
+    // Listen for client recovery
     if (!socket.recovered) {
       try {
         // Get all messages that have been sent since the client was last connected
